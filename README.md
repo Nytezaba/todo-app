@@ -1,3 +1,3 @@
-#Hello
+# Hello everyone
 
-This is a project for my education
+This is my project for education purpose.
