@@ -41,3 +41,13 @@ export const updateTodo = async (id, task) => {
     throw error;
   }
 };
+
+export const deleteTodo = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/todos/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting todo:', error);
+    throw error;
+  }
+};

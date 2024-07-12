@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import Modal from './Modal';
 import Update from './Update';
-import { getAllTodos, createTodo, updateTodo } from './api';
+import { getAllTodos, createTodo, updateTodo, deleteTodo } from './api';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -74,6 +75,29 @@ const App = () => {
     }
   };
 
+  const handleDeleteTask = async (taskId) => {
+    Swal.fire({
+      title: 'Do you want to delete this task?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#EF4444',
+      cancelButtonColor: '#3B82F6',
+      confirmButtonText: 'Delete!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteTodo(taskId);
+          const filteredTasks = tasks.filter((task) => task._id !== taskId);
+          setTasks(filteredTasks);
+          Swal.fire('Deleted!', 'Your task has been deleted.', 'success');
+        } catch (error) {
+          console.error('Error deleting task:', error);
+          Swal.fire('Error!', 'There was an error deleting the task.', 'error');
+        }
+      }
+    });
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="min-w-full p-4">
@@ -114,6 +138,13 @@ const App = () => {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-500">Status: <span className={task.completed ? 'text-green-600' : 'text-red-600'}>{task.completed ? 'Complete' : 'Incomplete'}</span></p>
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <button 
+                  onClick={() => handleDeleteTask(task._id)}
+                  className="bg-red-500 text-white px-2.5 py-2 rounded text-medium">
+                  Delete
+                </button>
               </div>
             </div>
           </div>
