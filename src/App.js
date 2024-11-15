@@ -41,8 +41,24 @@ const App = () => {
 
       setTasks([...tasks, createdTask]);
       setNewTask(''); // Clear input field after adding task
+
+      // Show success notification
+      Swal.fire({
+        title: 'Task Created!',
+        text: `The task has been successfully added.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
     } catch (error) {
       console.error('Error creating task:', error);
+
+      // Show error notification
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was an issue creating the task. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -70,8 +86,23 @@ const App = () => {
       );
       setTasks(updatedTasks);
       handleCloseModal(); // Close modal after successful update
+      // Show success notification
+      Swal.fire({
+        title: 'Task Updated!',
+        text: `The task has been successfully updated.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
     } catch (error) {
       console.error('Error updating task:', error);
+
+      // Show error notification
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was an issue updating the task. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
